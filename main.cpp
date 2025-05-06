@@ -29,21 +29,24 @@ static std::string bytesToHex(const unsigned char* data, size_t len) {
     return oss.str();
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <hex>\n";
-        return 1;
-    }
+int main() {
+    // Hardcoded input string from test.js
+    std::string input_str = "Test1234Test1234Test1234Test1234Test1234Test1234Test1234Test1234Test1234Test1234Test1234Test1234";
 
-    auto bytes = hexToBytes(argv[1]);
+    // Convert the string to bytes (assuming UTF-8 like in test.js)
+    std::vector<unsigned char> bytes(input_str.begin(), input_str.end());
+
+    // Print input bytes as hex
+    std::cout << "Input Bytes (Hex): " << bytesToHex(bytes.data(), bytes.size()) << std::endl;
 
     // initialize VerusHash V2
-    CVerusHashV2::init();  // lowercase 'init'
+    CVerusHashV2::init();
 
     unsigned char hash[32];
     CVerusHashV2 hasher;
     hasher.Write(bytes.data(), bytes.size()).Finalize(hash);
 
-    std::cout << bytesToHex(hash, 32) << std::endl;
+    // Note: test.js reverses the output hex. We are keeping the original C++ behavior here (raw byte order).
+    std::cout << "Output Hash (Raw Hex): " << bytesToHex(hash, 32) << std::endl;
     return 0;
 }
