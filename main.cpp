@@ -8,6 +8,7 @@
 #include "crypto/verus_clhash.h" // Includes SOLUTION constants
 #include "uint256.h"
 #include "utilstrencodings.h"
+#include "crypto/verus_clhash.h" // For IsCPUVerusOptimized
 
 static std::vector<unsigned char> hexToBytes(const std::string& hex) {
     std::vector<unsigned char> out;
@@ -42,6 +43,13 @@ int main() {
     // Initialize hashers
     CVerusHash::init();
     CVerusHashV2::init();
+
+    // Check which implementation is being used
+    if (IsCPUVerusOptimized()) {
+        std::cout << "INFO: Using native optimized VerusHash implementations (AES-NI, PCLMULQDQ)." << std::endl;
+    } else {
+        std::cout << "INFO: Using portable C VerusHash implementations." << std::endl;
+    }
 
     unsigned char hash[32];
 
