@@ -21,9 +21,6 @@ Use Docker to build the C++ executable in a consistent environment:
 docker build -t verushash-builder .
 ```
 
-```sh
-docker build -t verushash-builder .
-```
 
 ## Run
 
